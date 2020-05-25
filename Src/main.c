@@ -24,8 +24,26 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
+#include <string.h> 
+
 //extern char s[6];
 //extern int ctt;
+
+char s[8];
+//extern char out[5];
+int flg = 0;
+int ctt = 0;
+char out[5];
+int flg2 = 0;
+char y[6] = "";
+char kk[4];
+int flg3 = 0;
+int m = 0;
+//volatile char line_buffer[5 + 1]; // Holding buffer with space for terminating NUL
+//volatile int line_valid = 0;
+
+
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -67,7 +85,10 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef	*huart)
+{
+	HAL_UART_Receive_IT(&huart1,(uint8_t*)&s,sizeof(s));
+}
 /* USER CODE END 0 */
 
 /**
@@ -118,13 +139,60 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-		
-  while (1)
-  {
-			//HAL_ADC_PollForConversion(&hadc1,HAL_MAX_DELAY);
-	//HAL_ADC_Start(&hadc1);
 	
 
+	//strncat(y, &s, 1);
+	int mk = 1;
+	//HAL_GPIO_WritePin(GPIOB,GPIO_PIN_11,GPIO_PIN_SET);
+
+	///
+
+	
+	///
+  while (1)
+  {
+
+	//HAL_ADC_PollForConversion(&hadc1,HAL_MAX_DELAY);
+	//HAL_ADC_Start(&hadc1);
+	
+	
+	if(s[7]=='s' && flg3 == 0)
+	{
+	if(flg ==0)
+	{
+		strncpy(kk,s+2,4);
+		//sscanf(kk, "%d", &m);
+		
+		sscanf(kk, "%d", &mk);
+		flg = 1;
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_11,GPIO_PIN_SET);
+		HAL_SYSTICK_Config((1.0/mk) * 8000000 - 1);
+	}
+	
+	
+//	if(flg2 == 1)
+//	{
+//		flg2 =0;
+//		HAL_UART_Transmit_IT(&huart1,(uint8_t*)&out,sizeof(out));
+//	}
+		
+		
+	if(ctt > mk*10)
+		flg3 = 1;
+	}else if(s[0]=='s' && flg3==0)
+	{	
+	}else
+	{
+	ctt = 1;
+	mk = 1;
+	flg2 =0;
+  memset(s, 0, sizeof(s)); 
+	memset(kk, 0, sizeof(kk));
+
+	flg3 = 0;
+	flg = 0;
+	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_11,GPIO_PIN_RESET);
+	}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
