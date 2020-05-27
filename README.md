@@ -5,9 +5,9 @@ This is an embedded project for Embedded systems course in AUC with Dr. Shalaan.
 ------**Src Folder - Embedded C Code**------
 Contains:
 
-  main.c
+  main.c: 
     contains the main while(1) to transmit the read code over UART
-  stm32f1xx_it.c
+  stm32f1xx_it.c:
     contains the Handlers for UART, ADC, Systick timer
     
 ------**Python GUI Folde - Python Coder**------
