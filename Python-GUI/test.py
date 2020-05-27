@@ -29,7 +29,7 @@ flg2 = False
 msg = '0001'
 ser = serial.Serial()
 #--------------
-MAX_ECG = 3920
+MAX_ECG = 3930
 BPM = 0.0
 Pulse_1 = False
 PulseTime_1 = 0
@@ -141,6 +141,7 @@ def clickMe2():
             # Read ADC Data
             if count < int(msg2)*60 and flg == True:
                 msgg = ser.read(4)
+                print(count)
                 count = count + 1
                 msg3 = msgg.decode("utf-8")
                 if msg3[0] == '0':
@@ -154,10 +155,11 @@ def clickMe2():
                                 Pulse_1 = True
                         else:
                                 PulseTime_2 = dt.datetime.now()
-                                PulseInterval = PulseTime_2 - Pulse_1
-                                BPM = (1.0/PulseInterval.total_seconds()) * 60.0 
-                                ttk.Label(monty, text="BPM is: " + str(BPM)).grid(column =1,row=3, sticky='W')
-                                Pulse_1 = False
+                                PulseInterval = PulseTime_2 - PulseTime_1
+                                if PulseInterval.total_seconds() >= 1:
+                                    BPM = (1.0/PulseInterval.total_seconds()) * 60.0 
+                                    ttk.Label(monty, text=str(BPM)).grid(column =1,row=3, sticky='W')
+                                    Pulse_1 = False
                
 
                 # Add x and y to lists
@@ -165,8 +167,8 @@ def clickMe2():
                 ys.append(msg4)
 
                 # Limit x and y lists to 200 items
-                xs = xs[-200:]
-                ys = ys[-200:]
+                xs = xs[-20:]
+                ys = ys[-20:]
 
                 # Draw x and y lists
                 ax.clear()
