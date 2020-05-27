@@ -26,23 +26,12 @@
 #include "stdio.h"
 #include <string.h> 
 
-//extern char s[6];
-//extern int ctt;
-
 char s[8];
-//extern char out[5];
 int flg = 0;
 int ctt = 0;
 char out[5];
-int flg2 = 0;
-char y[6] = "";
 char kk[4];
 int flg3 = 0;
-int m = 0;
-//volatile char line_buffer[5 + 1]; // Holding buffer with space for terminating NUL
-//volatile int line_valid = 0;
-
-
 
 /* USER CODE END Includes */
 
@@ -134,7 +123,6 @@ int main(void)
 
 	
 	__HAL_ADC_ENABLE_IT(&hadc1,ADC_IT_EOC);
- //__HAL_ADC_ENABLE_IT(&hadc1,ADC_IT_EOC);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -143,7 +131,6 @@ int main(void)
 
 	//strncat(y, &s, 1);
 	int mk = 1;
-	//HAL_GPIO_WritePin(GPIOB,GPIO_PIN_11,GPIO_PIN_SET);
 
 	///
 
@@ -151,31 +138,17 @@ int main(void)
 	///
   while (1)
   {
-
-	//HAL_ADC_PollForConversion(&hadc1,HAL_MAX_DELAY);
-	//HAL_ADC_Start(&hadc1);
-	
 	
 	if(s[7]=='s' && flg3 == 0)
 	{
 	if(flg ==0)
 	{
-		strncpy(kk,s+2,4);
-		//sscanf(kk, "%d", &m);
-		
+		strncpy(kk,s+2,4);		
 		sscanf(kk, "%d", &mk);
 		flg = 1;
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_11,GPIO_PIN_SET);
 		HAL_SYSTICK_Config((1.0/mk) * 8000000 - 1);
-	}
-	
-	
-//	if(flg2 == 1)
-//	{
-//		flg2 =0;
-//		HAL_UART_Transmit_IT(&huart1,(uint8_t*)&out,sizeof(out));
-//	}
-		
+	}		
 		
 	if(ctt > mk*10)
 		flg3 = 1;
@@ -186,7 +159,7 @@ int main(void)
 	ctt = 1;
 	mk = 1;
 	flg2 =0;
-  memset(s, 0, sizeof(s)); 
+  	memset(s, 0, sizeof(s)); 
 	memset(kk, 0, sizeof(kk));
 
 	flg3 = 0;
@@ -197,13 +170,6 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
   /* USER CODE BEGIN USART1_IRQn 1 */
-//	if(s == 's')
-//	{
-//	HAL_ADC_Start(&hadc1);
-//	res = HAL_ADC_GetValue(&hadc1);
-//	sprintf(out, "%d\n\r", res);
-//	//HAL_UART_Transmit(&huart1,(uint8_t *) &out,sizeof(out), HAL_MAX_DELAY);
-//	}
   }
   /* USER CODE END 3 */
 }
