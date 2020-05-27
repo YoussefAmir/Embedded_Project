@@ -150,7 +150,7 @@ int main(void)
 		HAL_SYSTICK_Config((1.0/mk) * 8000000 - 1);
 	}		
 		
-	if(ctt > mk*10)
+	if(ctt > mk*60)
 		flg3 = 1;
 	}else if(s[0]=='s' && flg3==0)
 	{	
