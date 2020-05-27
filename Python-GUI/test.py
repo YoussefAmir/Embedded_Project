@@ -10,6 +10,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import serial #pyserial
 import time
 
+import heartpy as hp
+import csv
+
 win = tk.Tk()
 win.title("Python GUI")
 
@@ -25,6 +28,7 @@ flg = False
 flg2 = False
 msg = '0001'
 ser = serial.Serial()
+lst = []
 #--------------
 
 tabControl = ttk.Notebook(win)
@@ -87,24 +91,22 @@ rateEntered.grid(column=0, row=3, sticky = tk.W)
 #--------------------------
 
 def close_event():
-    print('tooozzzzzz')
     global flg
     flg = False
     global count
+    global msg2
+    global lst
     ser.close()
     count = 0
+    action.configure(text='Check Connection')
     timer.stop()
 
-timer = fig.canvas.new_timer(interval = int(msg2)*12*1000) #creating a timer object and setting an interval of 3000 milliseconds
+timer = fig.canvas.new_timer(interval = int(msg2)*65*1000) 
 timer.add_callback(close_event)
 
 
 
 def clickMe2():
-
-    print('clickme')
-    # ax = fi
-    # g.add_subplot(1, 1, 1)
     xs = []
     ys = []
     global msg2
@@ -128,23 +130,23 @@ def clickMe2():
 
         def animate(i, xs, ys):
             global count
-    # Read temperature (Celsius) from TMP102
-            if count < int(msg2)*10:
+            global lst
+        # Read ADC Data
+            if count < int(msg2)*60 and flg == True:
                 msgg = ser.read(4)
                 count = count + 1
-                print(count)
                 msg3 = msgg.decode("utf-8")
                 if msg3[0] == '0':
                         msg3 = '0'
                 msg4 = int(msg3)
-
+                lst.append(msg4)
                 # Add x and y to lists
                 xs.append(dt.datetime.now().strftime('%H:%M:%S.%f'))
                 ys.append(msg4)
 
-                # Limit x and y lists to 20 items
-                xs = xs[-20:]
-                ys = ys[-20:]
+                # Limit x and y lists to 200 items
+                xs = xs[-200:]
+                ys = ys[-200:]
 
                 # Draw x and y lists
                 ax.clear()
@@ -153,17 +155,13 @@ def clickMe2():
                 # Format plot
                 plt.xticks(rotation=45, ha='right')
                 plt.subplots_adjust(bottom=0.30)
-                plt.title('TMP102 Temperature over Time')
-                plt.ylabel('Temperature (deg C)')
-                
-        print(msg)
-        print(count)
+                plt.title('ECG Signals Over Time')
+                plt.ylabel('ECG Signals')
         timer.start()
 
         ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys), interval=1000.0/int(msg2))
         plt.show()
         
-       
     
 action2 = ttk.Button(monty, text="Start Sampling", command=clickMe2)
 action2.grid(column=2, row=3)
