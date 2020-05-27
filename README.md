@@ -21,6 +21,7 @@ Contains:
   test.py
   
     contains the python GUI with the pyserial communication using UART
+    Calculates the BPM
     Communication must be validated before starting using "Check connection button"
 
 ---------------------------------------------
