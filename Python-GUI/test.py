@@ -158,7 +158,7 @@ def clickMe2():
                                 PulseInterval = PulseTime_2 - PulseTime_1
                                 if PulseInterval.total_seconds() >= 1:
                                     BPM = (1.0/PulseInterval.total_seconds()) * 60.0 
-                                    ttk.Label(monty, text=str(BPM)).grid(column =1,row=3, sticky='W')
+                                    ttk.Label(monty, text=str(BPM)).grid(column =1,row=3, padx=45, sticky='W')
                                     Pulse_1 = False
                
 
@@ -186,9 +186,8 @@ def clickMe2():
         
     
 action2 = ttk.Button(monty, text="Start Sampling", command=clickMe2)
-action2.grid(column=2, row=3)
+action2.grid(column=2, row=4)
 
+ttk.Label(monty, text="BPM: ").grid(column =1,row=3, sticky='W')
 
-
-nameEntered.focus()
 win.mainloop()
