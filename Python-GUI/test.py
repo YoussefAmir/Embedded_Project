@@ -28,8 +28,13 @@ flg = False
 flg2 = False
 msg = '0001'
 ser = serial.Serial()
-lst = []
 #--------------
+MAX_ECG = 3920
+BPM = 0.0
+Pulse_1 = False
+PulseTime_1 = 0
+PulseTime_2 = 0
+#------------------
 
 tabControl = ttk.Notebook(win)
 
@@ -95,7 +100,6 @@ def close_event():
     flg = False
     global count
     global msg2
-    global lst
     ser.close()
     count = 0
     action.configure(text='Check Connection')
@@ -130,8 +134,11 @@ def clickMe2():
 
         def animate(i, xs, ys):
             global count
-            global lst
-        # Read ADC Data
+            global MAX_ECG
+            global Pulse_1
+            global PulseTime_1
+            global PulseTime_2
+            # Read ADC Data
             if count < int(msg2)*60 and flg == True:
                 msgg = ser.read(4)
                 count = count + 1
@@ -139,7 +146,20 @@ def clickMe2():
                 if msg3[0] == '0':
                         msg3 = '0'
                 msg4 = int(msg3)
-                lst.append(msg4)
+
+
+                if msg4 > MAX_ECG:
+                        if Pulse_1 == False:
+                                PulseTime_1 = dt.datetime.now()
+                                Pulse_1 = True
+                        else:
+                                PulseTime_2 = dt.datetime.now()
+                                PulseInterval = PulseTime_2 - Pulse_1
+                                BPM = (1.0/PulseInterval.total_seconds()) * 60.0 
+                                ttk.Label(monty, text="BPM is: " + str(BPM)).grid(column =1,row=3, sticky='W')
+                                Pulse_1 = False
+               
+
                 # Add x and y to lists
                 xs.append(dt.datetime.now().strftime('%H:%M:%S.%f'))
                 ys.append(msg4)
