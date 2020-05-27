@@ -1,6 +1,8 @@
 # Embedded_Project
 
-//************Src Folder***************///
+This is an embedded project for Embedded systems course in AUC with Dr. Shalaan. The code is to read ECG signals using STM microcontroller, Heart Beat monitor, and ECG electrods. The project utilizes a simple GUI made by python to start the connection and plot the ECG signals.
+
+//************Src Folder - Embedded C Code***************///
 Contains:
 
   main.c
@@ -8,7 +10,7 @@ Contains:
   stm32f1xx_it.c
     contains the Handlers for UART, ADC, Systick timer
     
-//********Python GUI Folder*************//
+//********Python GUI Folde - Python Coder*************//
 Contains:
 
   test.py
